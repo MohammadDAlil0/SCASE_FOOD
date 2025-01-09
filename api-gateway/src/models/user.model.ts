@@ -2,7 +2,7 @@ import { BeforeCreate, BelongsTo, Column, DataType, Default, ForeignKey, IsEmail
 import * as argon from 'argon2';
 import { BadRequestException } from "@nestjs/common";
 import { BaseModel } from "./base.model";
-import { Role } from "src/user/constants/enums";
+import { Role } from "src/constants/enums";
 
 @Table({
     tableName: 'user_table',

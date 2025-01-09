@@ -8,11 +8,14 @@ import { LoginDto } from './dto/login.dto';
 import { DataBaseService } from 'src/database/database.service';
 import * as argon from 'argon2';
 import { ChangeRoleDto } from './dto/change-role.dto';
+import { Contributor } from 'src/models/contributor.model';
+import { ContributeDto } from './dto/contriubte.dto';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel(User) private readonly UserModel: typeof User,
+        @InjectModel(Contributor) private readonly ContributorModel: typeof Contributor,
         @Inject() private readonly jwt: JwtService,
         @Inject() private readonly config: ConfigService,
         @Inject() private readonly dataBaseService: DataBaseService
@@ -48,8 +51,10 @@ export class UserService {
     }
 
     async changeRole(dto: ChangeRoleDto) {
+      const users = await this.UserModel.findAll();
+      console.log(users, dto.userId);
         const updatedUser: User = await this.dataBaseService.findByPkOrThrow(this.UserModel, dto.userId);
-     
+
         updatedUser.role = dto.role;
         await updatedUser.save();
         
@@ -66,5 +71,9 @@ export class UserService {
           secret: this.config.getOrThrow<string>('JWT_SECRET')
         });
         return token;
+    }
+
+    async contribute(contributeDto: ContributeDto) {
+      return await this.ContributorModel.create({ ...contributeDto })
     }
 }

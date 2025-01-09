@@ -1,6 +1,6 @@
 import { IsEnum } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Role } from "../constants/enums";
+import { Role } from "../../constants/enums";
 
 export class ChangeRoleDto {
     @IsEnum(Role)

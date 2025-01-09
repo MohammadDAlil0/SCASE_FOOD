@@ -1,0 +1,14 @@
+Scase Food
+Functional Requirements
+- There will be admins, users, registered-users.
+- A user can register on the site and only Admins can accept him.
+- Admins can add, edit, delete a type of food.
+One user can contribute to order food.
+Users can order with those contributors.
+There will be a notification system that sends messages after each action.
+When a contributor gets money he should change the status of the order to be “Got it”.
+The system must send a notification if a user doesn't send money to the contributor before the deadline of ordering and after the food is delayed.
+A notification must be sent when a contributor wants to order food, when a user orders food, when a user forgot to pay, and when the food comes.
+There should be a page showing the restaurants.
+A simple menu shows the mosts contributed people
+The site must show the history of the orders.
