@@ -1,10 +1,10 @@
 import { BadRequestException, Body, Controller, Get, Inject, InternalServerErrorException, Param, Post, Put } from '@nestjs/common';
-import { ChangeRoleDecorator, ContributeDecorator, LoginDecorators, SignupDecorators } from './decorators/user-appliers.decorator';
+import { ChangeRoleDecorator, ChangeStatusDecorator, CraeteOderDecorator, LoginDecorators, SignupDecorators, SubmitOrderDecorator } from './decorators/user-appliers.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { LoginDto } from './dto/login.dto';
 import { ChangeRoleDto } from './dto/change-role.dto';
-import { ContributeDto } from './dto/contriubte.dto';
+import { ChangeStatusDto } from './dto/contriubte.dto';
 import { GetUser } from './decorators/get-user.decortator';
 import { User } from 'src/models/user.model';
 
@@ -16,9 +16,9 @@ export class UserController {
 
     @Post('signup')
     @SignupDecorators()
-    signup(@Body() createUserDto: CreateUserDto) {
+    async signup(@Body() createUserDto: CreateUserDto) {
         try {
-            return this.natsClient.send({ cmd: 'signup' }, createUserDto);   
+            return await this.natsClient.send({ cmd: 'signup' }, createUserDto).toPromise();   
         } catch(error) {
             return error;
         }
@@ -26,9 +26,9 @@ export class UserController {
 
     @Post('login')
     @LoginDecorators()
-    login(@Body() loginDto: LoginDto) {
+    async login(@Body() loginDto: LoginDto) {
         try {
-            return this.natsClient.send({ cmd: 'login' }, loginDto);
+            return await this.natsClient.send({ cmd: 'login' }, loginDto).toPromise();
         } catch(error) {
             return error;
         }
@@ -47,19 +47,40 @@ export class UserController {
         }
     }
 
-    @Post('contribute')
-    @ContributeDecorator()
-    async contribute(@GetUser() curUser: User, @Body() contributeDto: ContributeDto) {
+    @Put('changeStatus')
+    @ChangeStatusDecorator()
+    async changeStatus(@GetUser() curUser: User, @Body() changeStatusDto: ChangeStatusDto) {
         try {
-            console.log(contributeDto);
-            return await this.natsClient.send({ cmd: 'contributes' }, {
-                contributorId: curUser.id,
-                ...contributeDto
+            return await this.natsClient.send({ cmd: 'changeStatus' }, {
+                curUser,
+                ...changeStatusDto
             }).toPromise();
         } catch(error) {
             return error;
         }
     }
 
+    @Post('createOrder/:contributorId')
+    @CraeteOderDecorator()
+    async createOrder(@Param('contributorId') contributorId: string, @GetUser() curUser: User) {
+        try {
+            return await this.natsClient.send({ cmd: 'createOrder' }, {
+                craetedBy: curUser.id,
+                contributorId
 
+            }).toPromise();
+        } catch(error) {
+            return error;
+        }
+    }
+
+    @Put('submitOrder/:orderId')
+    @SubmitOrderDecorator()
+    async submitOrder(@Param('orderId') orderId: string) {
+    try {
+        return await this.natsClient.send({ cmd: 'submitOrder' }, orderId).toPromise();
+    } catch(error) {
+        return error;
+    }
+    }
 }

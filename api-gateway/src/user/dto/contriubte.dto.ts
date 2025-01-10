@@ -1,13 +1,24 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDefined, IsNotEmpty, IsUUID } from "class-validator";
+import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsUUID } from "class-validator";
+import { Status } from "src/core/constants/enums";
 
-export class ContributeDto {
+export class ChangeStatusDto {
     @ApiProperty({
         description: 'Expected Date to call',
         type: Date
     })
+    @IsOptional()
     @IsNotEmpty()
     @Type(() => Date)
-    dateToCall: Date;
+    dateToCall?: Date;
+
+    @ApiProperty({
+        description: 'Change The Status',
+        enum: ['IDLE', 'ONGOING']
+    })
+    @IsEnum(Status)
+    status: Status;
+
+
 }

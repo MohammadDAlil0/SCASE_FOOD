@@ -4,7 +4,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
 import { ChangeRoleDto } from './dto/change-role.dto';
-import { ContributeDto } from './dto/contriubte.dto';
+import { changeStatusDto } from './dto/contriubte.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 @Controller('user')
 export class UserController {
@@ -27,9 +28,19 @@ export class UserController {
         return this.userService.changeRole(changeRoleDto);
     }
 
-    @MessagePattern({ cmd: 'contributes' })
-    async contribute(@Payload() contributeDto: ContributeDto) {
-        return this.userService.contribute(contributeDto);
+    @MessagePattern({ cmd: 'changeStatus' })
+    async changeStatus(@Payload() changeStatusDto: changeStatusDto) {
+        return this.userService.changeStatus(changeStatusDto);
 
     }
+
+    @MessagePattern({ cmd: 'createOrder' })
+    async createOrder(@Payload() createOrderDto: CreateOrderDto) {
+        return this.userService.createOrder(createOrderDto);
+    }
+
+    @MessagePattern({ cmd: 'submitOrder' })
+    submitOrder(@Payload() orderId: string) {
+    return this.userService.submitOrder(orderId);
+}
 }

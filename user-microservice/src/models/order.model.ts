@@ -30,7 +30,7 @@ export class Order extends BaseModel {
     contributor: User;
 
     @Column(DataType.INTEGER)
-    numberOfContribution: number;
+    numberOfContributions: number;
 
     @BelongsToMany(() => Food, () => foodOrder)
     foods: Food[];

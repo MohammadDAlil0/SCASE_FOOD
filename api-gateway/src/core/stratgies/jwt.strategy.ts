@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "src/models/user.model";
 import { UUID } from "crypto";
-import { DataBaseService } from "src/database/database.service";
+import { DataBaseService } from "src/core/database/database.service";
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {

@@ -21,7 +21,6 @@ export class Restaurant extends BaseModel {
     @Column(DataType.STRING)
     phoneNumber?: string;
 
-
     @AllowNull
     @Column(DataType.STRING)
     picturePath?: string

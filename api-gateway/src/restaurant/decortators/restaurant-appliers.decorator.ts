@@ -1,8 +1,8 @@
 import { applyDecorators, HttpCode, HttpStatus, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { Role } from "src/constants/enums";
+import { Role } from "src/core/constants/enums";
 import { Roles } from "src/user/decorators/roles.decorator";
-import { JwtGuard, RolesGuard } from "src/user/guards";
+import { JwtGuard, RolesGuard } from "src/core/guards";
 
 export function RestaurantGlobalDecorator() {
     return applyDecorators(

@@ -1,8 +1,8 @@
 import { applyDecorators, HttpCode, HttpStatus, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { Role } from "src/constants/enums";
+import { Role } from "src/core/constants/enums";
 import { Roles } from "src/user/decorators/roles.decorator";
-import { JwtGuard, RolesGuard } from "src/user/guards";
+import { JwtGuard, RolesGuard } from "src/core/guards";
 
 export function FoodGlobalDecorator() {
     return applyDecorators(
@@ -47,6 +47,22 @@ export function DeleteFoodDecorator() {
         ApiOperation({ summary: 'Delete Food' }),
         ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'You will the deleted food' }),
         Roles(Role.ADMIN),
+        HttpCode(HttpStatus.NO_CONTENT)
+    )
+}
+
+export function AddFoodDecorator() {
+    return applyDecorators(
+        ApiOperation({ summary: 'Add Food To Order' }),
+        ApiResponse({ status: HttpStatus.OK, description: 'You will get a message' }),
+    )
+}
+
+export function DeleteFoodFromOrderDecorator() {
+    return applyDecorators(
+        ApiOperation({ summary: 'Delete Food From Order' }),
+        ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'You will the deleted food from order' }),
+        Roles(Role.ADMIN, Role.USER),
         HttpCode(HttpStatus.NO_CONTENT)
     )
 }

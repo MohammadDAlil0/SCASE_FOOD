@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
-import { DataBaseService } from 'src/database/database.service';
 import { InjectModel } from '@nestjs/sequelize';
-import { Restaurant } from 'src/models/restaurant.mode';
+import { Restaurant } from 'src/models/restaurant.model';
+import { DataBaseService } from 'src/core/database/database.service';
 
 @Injectable()
 export class RestaurantService {

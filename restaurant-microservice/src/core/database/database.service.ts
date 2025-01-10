@@ -10,7 +10,7 @@ export class DataBaseService {
         const record = await model.findOne(options);
         
         if (!record) {
-            throw new RpcException(`${model.name} not found`);
+            throw new NotFoundException(`${model.name} not found`);
         }
 
         return record;
@@ -20,7 +20,7 @@ export class DataBaseService {
         const record = await model.findByPk(id);
 
         if (!record) {
-            throw new RpcException(`Invalid ${model.name}'s ID`);
+            throw new NotFoundException(`Invalid ${model.name}'s ID`);
         }
 
         return record;
@@ -30,7 +30,7 @@ export class DataBaseService {
         const deletedCount = await model.destroy(options);
 
         if (deletedCount === 0) {
-            throw new RpcException(`Invalid ${model.name}'s ID`);
+            throw new NotFoundException(`Invalid ${model.name}'s ID`);
         }
     }
 

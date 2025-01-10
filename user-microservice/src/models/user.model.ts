@@ -1,8 +1,8 @@
-import { BeforeCreate, BelongsTo, Column, DataType, Default, ForeignKey, IsEmail, IsNumeric, Length, NotEmpty, Table, Unique } from "sequelize-typescript";
+import { AllowNull, BeforeCreate, BelongsTo, Column, DataType, Default, ForeignKey, IsEmail, IsNumeric, Length, NotEmpty, Table, Unique } from "sequelize-typescript";
 import * as argon from 'argon2';
 import { BadRequestException } from "@nestjs/common";
 import { BaseModel } from "./base.model";
-import { Role } from "src/constants/enums";
+import { Role, Status } from "src/core/constants/enums";
 
 @Table({
     tableName: 'user_table',
@@ -45,6 +45,18 @@ export class User extends BaseModel {
   
     @Column(DataType.DATE)
     passwordResetExpires?: Date;
+    
+    @AllowNull
+    @Column(DataType.DATE)
+    dataToCall: Date;
+
+    @Default(Status.IDLE)
+    @Column(DataType.ENUM(...Object.values(Status)))
+    status: Status;
+
+    @Default(0)
+    @Column(DataType.INTEGER)
+    numberOfContributions: number;
 
     @BeforeCreate
     static async hashPassword(instance: User) {

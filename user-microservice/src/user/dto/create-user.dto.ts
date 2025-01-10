@@ -1,4 +1,4 @@
-import { Role } from "src/constants/enums";
+import { Role } from "src/core/constants/enums";
 
 export class CreateUserDto {
     username: string;

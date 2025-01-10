@@ -5,7 +5,6 @@ export enum Role {
 }
 
 export enum Status {
-    ONGOING = 'ONGOING',
-    SUCCEED = 'SUCCEED',
-    CANCELED = 'CANCELED'
+    IDLE = 'IDLE',
+    ONGOING = 'ONGOING'
 }
