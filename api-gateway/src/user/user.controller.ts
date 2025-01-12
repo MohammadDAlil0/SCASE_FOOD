@@ -1,5 +1,5 @@
-import { BadRequestException, Body, Controller, Get, Inject, InternalServerErrorException, Param, Post, Put } from '@nestjs/common';
-import { ChangeRoleDecorator, ChangeStatusDecorator, CraeteOderDecorator, LoginDecorators, SignupDecorators, SubmitOrderDecorator } from './decorators/user-appliers.decorator';
+import { Body, Controller, Get, Inject, Param, Post, Put } from '@nestjs/common';
+import { ChangeRoleDecorator, ChangeStatusDecorator, ChangeStatusOfOrder, CraeteOrderDecorator, GetAllActiveContributors, GetMyOrders, GetTopContributors, LoginDecorators, SignupDecorators, SubmitOrderDecorator } from './decorators/user-appliers.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { LoginDto } from './dto/login.dto';
@@ -18,7 +18,7 @@ export class UserController {
     @SignupDecorators()
     async signup(@Body() createUserDto: CreateUserDto) {
         try {
-            return await this.natsClient.send({ cmd: 'signup' }, createUserDto).toPromise();   
+            return await this.natsClient.send({ cmd: 'signup' }, createUserDto).toPromise(); 
         } catch(error) {
             return error;
         }
@@ -61,11 +61,11 @@ export class UserController {
     }
 
     @Post('createOrder/:contributorId')
-    @CraeteOderDecorator()
+    @CraeteOrderDecorator()
     async createOrder(@Param('contributorId') contributorId: string, @GetUser() curUser: User) {
         try {
             return await this.natsClient.send({ cmd: 'createOrder' }, {
-                craetedBy: curUser.id,
+                createdBy: curUser.id,
                 contributorId
 
             }).toPromise();
@@ -77,10 +77,50 @@ export class UserController {
     @Put('submitOrder/:orderId')
     @SubmitOrderDecorator()
     async submitOrder(@Param('orderId') orderId: string) {
-    try {
-        return await this.natsClient.send({ cmd: 'submitOrder' }, orderId).toPromise();
-    } catch(error) {
-        return error;
+        try {
+            return await this.natsClient.send({ cmd: 'submitOrder' }, orderId).toPromise();
+        } catch(error) {
+            return error;
+        }
     }
+
+    @Get('getAllActiveContributors')
+    @GetAllActiveContributors()
+    async getAllActiveContributors() {
+        try {
+            return await this.natsClient.send({ cmd: 'getAllActiveContributors' }, {}).toPromise();
+        } catch(error) {
+            return error;
+        }
+    }
+
+    @Put('changeStatusOfOrder/:orderId')
+    @ChangeStatusOfOrder()
+    async changeStatusOfOrder(@Param('orderId') orderId: string) {
+        try {
+            return await this.natsClient.send({ cmd: 'changeStatusOfOrder' }, orderId).toPromise();
+        } catch(error) {
+            return error;
+        }
+    }
+    
+    @Get('GetTopcontributors')
+    @GetTopContributors()
+    async getTopContributors() {
+        try {
+            return await this.natsClient.send({ cmd: 'getTopContributors' }, {}).toPromise();
+        } catch(error) {
+            return error;
+        }
+    }
+
+    @Get('GetMyOrders')
+    @GetMyOrders()
+    async getMyOrders(@GetUser() curUser: User) {
+        try {
+            return await this.natsClient.send({ cmd: 'getMyOrders' }, curUser.id).toPromise();
+        } catch(error) {
+            return error;
+        }
     }
 }

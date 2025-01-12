@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nest
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateRestauranDecorator, DeleteRestauranDecorator, FindAllRestaurantDecorator, FindRestaurantDecorator, RestaurantGlobalDecorator, UpdateRestauranDecorator } from './decortators/restaurant-appliers.decorator';
+import { CreateRestauranDecorator, DeleteRestauranDecorator, FindAllRestaurantDecorator, FindRestaurantDecorator, RestaurantGlobalDecorator, UpdateRestauranDecorator } from './decorators/restaurant-appliers.decorator';
 
 @Controller('restaurant')
 @RestaurantGlobalDecorator()

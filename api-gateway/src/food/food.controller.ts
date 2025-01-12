@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Put } from '@nestjs/common';
-import { AddFoodDecorator, CreateFoodDecorator, DeleteFoodDecorator, FindAllFoodDecorator, FindFoodDecorator, FoodGlobalDecorator, UpdateFoodDecorator } from './decorators/food-appliers.decorator';
+import { AddFoodDecorator, CreateFoodDecorator, DeleteFoodDecorator, DeleteFoodFromOrderDecorator, FindAllFoodDecorator, FindFoodDecorator, FoodGlobalDecorator, UpdateFoodDecorator } from './decorators/food-appliers.decorator';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
@@ -22,8 +22,8 @@ export class FoodController {
     }
   }
 
-  @Delete('removeFoodFromOrder/:id')
-  @DeleteFoodDecorator()
+  @Delete('removeFoodFromOrder/:orderId/:id')
+  @DeleteFoodFromOrderDecorator()
   async removeFoodFromOrder(@Param('id') id: string) {
     try {
       return await this.natsClient.send({ cmd: 'removeFoodFromOrder' }, id).toPromise();

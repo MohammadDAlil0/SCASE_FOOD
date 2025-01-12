@@ -6,6 +6,7 @@ import { LoginDto } from './dto/login.dto';
 import { ChangeRoleDto } from './dto/change-role.dto';
 import { changeStatusDto } from './dto/contriubte.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { User } from 'src/models/user.model';
 
 @Controller('user')
 export class UserController {
@@ -41,6 +42,27 @@ export class UserController {
 
     @MessagePattern({ cmd: 'submitOrder' })
     submitOrder(@Payload() orderId: string) {
-    return this.userService.submitOrder(orderId);
-}
+        return this.userService.submitOrder(orderId);
+    }
+
+    @MessagePattern({ cmd: 'getAllActiveContributors' })
+    getAllActiveContributors() {
+        return this.userService.getAllActiveContributors();
+    }
+
+    @MessagePattern({ cmd: 'changeStatusOfOrder' })
+    changeStatusOfOrder(@Payload() orderId: string) {
+        return this.userService.changeStatusOfOrder(orderId);
+    }
+
+    @MessagePattern({ cmd: 'getTopContributors' })
+    getTopContributors() {
+        return this.userService.getTopContributors();
+    }
+
+    @MessagePattern({ cmd: 'getMyOrders' })
+    getMyOrders(@Payload() userId: string) {
+        console.log(userId);
+        return this.userService.getMyOrders(userId);
+    }
 }

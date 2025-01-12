@@ -59,7 +59,7 @@ export class FoodService {
   }
 
   async getFoodOfOrder(id: string) {
-    const foods = this.FoodOrderModel.findAll<foodOrder>({
+    const foods = await this.FoodOrderModel.findAll<foodOrder>({
       where: {
         orderId: id,
       },
@@ -70,7 +70,6 @@ export class FoodService {
         }
       ]
     });
-    console.log(foods);
     return foods;
   }
 }

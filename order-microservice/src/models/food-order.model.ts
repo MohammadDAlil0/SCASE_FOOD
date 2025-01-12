@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, HasMany, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Table } from "sequelize-typescript";
 import { BaseModel } from "./base.model";
 import { Food } from "./food.model";
 import { Order } from "./order.model";
@@ -16,8 +16,8 @@ export class foodOrder extends BaseModel {
     @Column(DataType.UUID)
     orderId: string;
 
-    @HasMany(() => Food, {foreignKey: 'foodId', as: 'foods'})
-    foods: Food[];
+    @BelongsTo(() => Food, {foreignKey: 'foodId', targetKey: 'id'}) 
+    food: Food;
 
     @Column(DataType.INTEGER)
     number: number;

@@ -1,8 +1,9 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Table } from "sequelize-typescript";
+import { BelongsTo, BelongsToMany, Column, DataType, Default, ForeignKey, HasMany, Table } from "sequelize-typescript";
 import { BaseModel } from "./base.model";
 import { User } from "./user.model";
 import { Food } from "./food.model";
 import { foodOrder } from "./food-order.model";
+import { StatusOfOrder } from "src/core/constants/enums";
 
 @Table({
     tableName: 'order_table',
@@ -37,4 +38,8 @@ export class Order extends BaseModel {
 
     @Column(DataType.INTEGER)
     totalPrice: number;
+
+    @Default(StatusOfOrder.ONGOING)
+    @Column(DataType.ENUM(...Object.values(StatusOfOrder)))
+    statusOfOrder: StatusOfOrder;
 }

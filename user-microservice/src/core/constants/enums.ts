@@ -7,6 +7,11 @@ export enum Role {
 export enum Status {
     IDLE = 'IDLE',
     ONGOING = 'ONGOING',
-    SUCCEED = 'SUCCEED',
-    CANCELED = 'CANCELED'
+}
+
+export enum StatusOfOrder {
+    ONGOING = 'ONGOING',
+    UNPAIED = 'UNPAIED',
+    PAIED = 'PAIED',
+    DONE = 'DONE'
 }

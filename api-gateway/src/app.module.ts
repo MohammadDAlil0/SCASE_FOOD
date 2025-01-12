@@ -4,6 +4,7 @@ import { DatabaseModule } from './core/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { FoodModule } from './food/food.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     DatabaseModule,
     ConfigModule.forRoot({ isGlobal: true }),
     FoodModule,
-    RestaurantModule
+    RestaurantModule,
+    NotificationModule
   ],
   controllers: [],
   providers: [],

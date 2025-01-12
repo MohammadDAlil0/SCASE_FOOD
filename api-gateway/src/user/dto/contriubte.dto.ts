@@ -12,13 +12,4 @@ export class ChangeStatusDto {
     @IsNotEmpty()
     @Type(() => Date)
     dateToCall?: Date;
-
-    @ApiProperty({
-        description: 'Change The Status',
-        enum: ['IDLE', 'ONGOING']
-    })
-    @IsEnum(Status)
-    status: Status;
-
-
 }
